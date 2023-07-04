@@ -1,0 +1,230 @@
+package vchs;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Karthik {
+	private static final double Price = 0;
+	private static double walletBalance = 0.0;
+	
+	
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String username;
+        String password;
+
+        // Log In page
+        System.out.println("-------------- Welcome to Camera Rental Application --------------");
+        System.out.println("\nPlease log in to continue:");
+        System.out.print("Username: ");
+        username = scanner.nextLine();
+        System.out.print("Password: ");
+        password = scanner.nextLine();
+
+        if(username.equals("KARTHIK")&& password.equals("123456")){
+        	System.out.println("Login Successfully");
+        }
+        else {
+        	System.out.println("Invalid Username or Password");
+        }
+        System.out.println("\nWelcome, " + username + "!\n");
+
+        int option;
+        do {
+            // Display options
+            System.out.println("Options to be displayed:");
+            System.out.println("1. My Cameras");
+            System.out.println("2. Rent a Camera");
+            System.out.println("3. View All Cameras");
+            System.out.println("4. My Wallet");
+            System.out.println("5. Exit");
+            System.out.print("Option: ");
+            option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    // My Cameras functionality
+                    int myCamerasOption;
+                    do {
+                        System.out.println("\n-------------- My Cameras --------------");
+                        System.out.println("Please select an option:");
+                        System.out.println("1. Add Camera");
+                        System.out.println("2. Remove Camera");
+                        System.out.println("3. View My Cameras");
+                        System.out.println("4. Go back");
+                        System.out.print("Option: ");
+                        myCamerasOption = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (myCamerasOption) {
+                            case 1:
+                                addCamera();
+                                break;
+                            case 2:
+                                removeCamera();
+                                break;
+                            case 3:
+                                viewMyCameras();
+                                break;
+                            case 4:
+                                System.out.println("Going back to the previous menu.");
+                                break;
+                            default:
+                                System.out.println("Invalid option. Please try again.");
+                        }
+                    } while (myCamerasOption != 4);
+                    break;
+                case 2:
+                    rentCamera();
+                    break;
+                case 3:
+                    // View All Cameras functionality
+                    System.out.println("View All Cameras option selected.");
+                    displayAllCameras();
+                    break;
+                case 4:
+                    myWallet();
+                    break;
+                case 5:
+                    System.out.println("Exiting the application.");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        } while (option != 5);
+    }
+    private static boolean validateUser(String username, String password) {
+        return true;
+    }
+    private static void displayAllCameras() {
+        System.out.println("-------------- Available Cameras --------------");
+        System.out.println("ID\tBrand\t\tModel\t\tPrice/Day\tStatus");
+        System.out.println("-----------------------------------------------");
+        System.out.println("1\tCanon\t\tEOS 5D Mark IV\t25000.0\t\tAvailable");
+        System.out.println("2\tNikon\t\tD850\t\t500.0\t\tRented");
+        System.out.println("3\tSony\t\tA7 III\t\t200.0\t\tAvailable");
+        System.out.println("4\tSamsung\t\tX-T4\t\t500.0\t\tAvailable");
+        System.out.println("5\tfujitsu\t\t5022\t\t300.0\t\tAvailable");
+        System.out.println("6\tSamsung\t\t3624\t\t500.0\t\trented");
+        System.out.println("-----------------------------------------------");
+    }
+    private static List<String> myCameras = new ArrayList<>();
+    private static void viewMyCameras() {
+        System.out.println("\n-------------- My Cameras --------------");
+        if (myCameras.isEmpty()) {
+            System.out.println("You don't have any cameras yet.");
+        } else {
+            System.out.println("Your cameras:");
+            for (String camera : myCameras) {
+                System.out.println(camera);
+            }
+        }
+        System.out.println("---------------------------------------");
+    }
+    private static void addCamera() {
+        System.out.println("\n-------------- Add Camera --------------");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the camera brand: ");
+        String brand = scanner.nextLine();
+
+        System.out.print("Enter the camera model: ");
+        String model = scanner.nextLine();
+
+        System.out.print("Enter the camera price per day: ");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+
+        String cameraDetails = brand + " " + model + " " + price;
+        myCameras.add(cameraDetails);
+
+        System.out.println("Camera added successfully.");
+        System.out.println("---------------------------------------");
+    }
+    private static void removeCamera() {
+        System.out.println("\n-------------- Remove Camera --------------");
+        if (myCameras.isEmpty()) {
+            System.out.println("You don't have any cameras to remove.");
+        } else {
+            System.out.println("Your cameras:");
+            for (int i = 0; i < myCameras.size(); i++) {
+                System.out.println((i + 1) + ". " + myCameras.get(i));
+            }
+
+            System.out.print("Enter the number of the camera you want to remove: ");
+            Scanner scanner = new Scanner(System.in);
+            int cameraNumber = scanner.nextInt();
+            scanner.nextLine(); 
+
+            if (cameraNumber >= 1 && cameraNumber <= myCameras.size()) {
+                String removedCamera = myCameras.remove(cameraNumber - 1);
+                System.out.println("Camera " + removedCamera + " removed successfully.");
+            } else {
+                System.out.println("Invalid camera number.");
+            }
+        }
+        System.out.println("-----------------------------------------");
+    }
+        private static void rentCamera() {
+            System.out.println("\n-------------- Rent a Camera --------------");
+            displayAllCameras();
+            System.out.print("Enter the ID of the camera you want to rent: ");
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.hasNextInt()) { // Check if input is available as an integer
+                int ID = scanner.nextInt();
+                scanner.nextLine();
+                if (ID >= 1 && ID <= 4) {
+                    boolean transactionSuccess = processTransaction(ID);
+                    if (transactionSuccess) {
+                        System.out.println("Camera with ID " + ID + " rented successfully.");
+                    } else {
+                        System.out.println("Error: Transaction failed due to insufficient wallet balance. Please deposit the amount to your wallet.");
+                    }
+                } else {
+                    System.out.println("Invalid camera ID.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid camera ID.");
+            }
+            System.out.println("-------------------------------------------");
+        }
+
+
+    private static boolean processTransaction(int ID) {
+        String cameraDetails = getCameraDetails(ID);
+        double Price = getCameraPrice(ID);
+        if (walletBalance >= Price) {
+            walletBalance -= Price;
+            myCameras.add(cameraDetails);
+
+            return true; 
+        } else {
+            return false; 
+        }
+    }
+    private static String getCameraDetails(int ID) {
+        return "Dummy Camera Details";
+    }
+    private static double getCameraPrice(int Id) {
+        return 50.0; 
+    }
+
+    private static void myWallet() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n-------------- My Wallet --------------");
+        System.out.println("Current Wallet Balance: INR " + 1723.5);
+        System.out.print("Do you want to deposit more amount to your wallet? (y/n): ");
+        String depositOption = scanner.nextLine();
+        if (depositOption.equalsIgnoreCase("y")) {
+            System.out.print("Enter the amount to deposit (INR): ");
+            double depositAmount = scanner.nextDouble();
+            walletBalance += depositAmount;
+            System.out.println("Amount deposited successfully. Updated wallet balance: INR " + walletBalance);
+        }
+        System.out.println("---------------------------------------");
+    }
+
+}
